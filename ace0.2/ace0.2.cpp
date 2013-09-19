@@ -1,7 +1,7 @@
 // ace0.2.cpp : main project file.
 
 #include "stdafx.h"
-#include "Form1.h"
+#include "Main.h"
 
 using namespace ace02;
 
@@ -13,6 +13,6 @@ int main(array<System::String ^> ^args)
 	Application::SetCompatibleTextRenderingDefault(false); 
 
 	// Create the main window and run it
-	Application::Run(gcnew Form1());
+	Application::Run(gcnew mainForm());
 	return 0;
 }
