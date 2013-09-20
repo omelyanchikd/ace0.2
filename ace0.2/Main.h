@@ -1,6 +1,16 @@
 #pragma once
 
-#include "world.h"
+#include "world.cpp"
+
+#include "firm.cpp"
+#include "household.cpp"
+
+#include "labormarket.cpp"
+#include "goodmarket.cpp"
+
+#include "offer.cpp"
+#include "data.cpp"
+
 
 namespace ace02 {
 
@@ -52,31 +62,32 @@ namespace ace02 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^  legend = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^  series = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^  legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^  series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// Chart
+			// chart
 			// 
-			chartArea->Name = L"chartArea";
-			this->chart->ChartAreas->Add(chartArea);
+			chartArea1->Name = L"chartArea";
+			this->chart->ChartAreas->Add(chartArea1);
 			this->chart->Dock = System::Windows::Forms::DockStyle::Fill;
-			legend->Name = L"legend";
-			this->chart->Legends->Add(legend);
+			legend1->Name = L"legend";
+			this->chart->Legends->Add(legend1);
 			this->chart->Location = System::Drawing::Point(0, 0);
 			this->chart->Name = L"chart";
-			series->ChartArea = L"chartArea";
-			series->Legend = L"legend";
-			series->Name = L"series";
-			this->chart->Series->Add(series);
+			series1->ChartArea = L"chartArea";
+			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series1->Legend = L"legend";
+			series1->Name = L"series";
+			this->chart->Series->Add(series1);
 			this->chart->Size = System::Drawing::Size(1345, 566);
 			this->chart->TabIndex = 0;
 			this->chart->Text = L"Chart";
 			// 
-			// Form1
+			// mainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -84,15 +95,25 @@ namespace ace02 {
 			this->Controls->Add(this->chart);
 			this->Name = L"mainForm";
 			this->Text = L"Main Form";
-			this->DoubleClick += gcnew System::EventHandler(this, &mainForm::mainForm_DoubleClick);
+			this->Load += gcnew System::EventHandler(this, &mainForm::mainForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
-	private: System::Void mainForm_DoubleClick(System::Object^  sender, System::EventArgs^  e) {
-				 world _world;
-			 }
+	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+			world earth(2,10,10,10);
+			for (int i = 0; i < 100; i++)
+			{
+				earth.step();
+			}
+			map<int,vector<double>> sold = earth._log.getfirmsold();
+			for(int i = 0; i < sold[1].size(); i++)
+			{
+				this->chart->Series["series"]->Points->AddY((sold[1][i]).ToString());
+			}
+			
+		}
 	};
 }
 
