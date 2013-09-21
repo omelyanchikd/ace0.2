@@ -47,6 +47,8 @@ namespace ace02 {
 			}
 		}
 	private: System::Windows::Forms::DataVisualization::Charting::Chart ^chart;
+	private: System::Windows::Forms::ListBox^  listBox;
+
 	protected: 
 
 	private:
@@ -62,36 +64,51 @@ namespace ace02 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^  legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^  series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea3 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^  legend3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^  series3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
+			this->listBox = (gcnew System::Windows::Forms::ListBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// chart
 			// 
-			chartArea1->Name = L"chartArea";
-			this->chart->ChartAreas->Add(chartArea1);
-			this->chart->Dock = System::Windows::Forms::DockStyle::Fill;
-			legend1->Name = L"legend";
-			this->chart->Legends->Add(legend1);
-			this->chart->Location = System::Drawing::Point(0, 0);
+			chartArea3->Name = L"chartArea";
+			this->chart->ChartAreas->Add(chartArea3);
+			this->chart->Dock = System::Windows::Forms::DockStyle::Bottom;
+			legend3->Enabled = false;
+			legend3->Name = L"legend";
+			this->chart->Legends->Add(legend3);
+			this->chart->Location = System::Drawing::Point(0, 34);
 			this->chart->Name = L"chart";
-			series1->ChartArea = L"chartArea";
-			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series1->Legend = L"legend";
-			series1->Name = L"series";
-			this->chart->Series->Add(series1);
-			this->chart->Size = System::Drawing::Size(1345, 566);
+			series3->ChartArea = L"chartArea";
+			series3->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series3->IsVisibleInLegend = false;
+			series3->Legend = L"legend";
+			series3->Name = L"series";
+			this->chart->Series->Add(series3);
+			this->chart->Size = System::Drawing::Size(763, 297);
 			this->chart->TabIndex = 0;
 			this->chart->Text = L"Chart";
+			// 
+			// listBox
+			// 
+			this->listBox->AllowDrop = true;
+			this->listBox->FormattingEnabled = true;
+			this->listBox->Items->AddRange(gcnew cli::array< System::Object^  >(8) {L"Salary", L"Price", L"Sold", L"Stock", L"Money", 
+				L"Workers", L"Desired", L"Profit"});
+			this->listBox->Location = System::Drawing::Point(36, 2);
+			this->listBox->Name = L"listBox";
+			this->listBox->Size = System::Drawing::Size(159, 17);
+			this->listBox->TabIndex = 1;
 			// 
 			// mainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1345, 566);
+			this->ClientSize = System::Drawing::Size(763, 331);
+			this->Controls->Add(this->listBox);
 			this->Controls->Add(this->chart);
 			this->Name = L"mainForm";
 			this->Text = L"Main Form";
@@ -110,7 +127,7 @@ namespace ace02 {
 			map<int,vector<double>> sold = earth._log.getfirmsold();
 			for(int i = 0; i < sold[1].size(); i++)
 			{
-				this->chart->Series["series"]->Points->AddY((sold[1][i]).ToString());
+ 				this->chart->Series["series"]->Points->AddY(sold[1][i]);
 			}
 			
 		}
