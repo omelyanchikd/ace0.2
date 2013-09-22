@@ -72,7 +72,6 @@ namespace ace02 {
 		void InitializeComponent(void)
 		{
 			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^  legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
 			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->comboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->checkBox = (gcnew System::Windows::Forms::CheckBox());
@@ -150,7 +149,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				earth.step();
 			}
@@ -173,11 +172,24 @@ namespace ace02 {
 			if (!checkBox->Checked)
 			{
 				this->chart->Series->Add("series");
-//				this->chart->Series["series"]->ChartType = Charting::Series::SeriesChartType->Line;
+				this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
 //				this->chart->Series["series"]->ChartArea = chartArea1;
 				for(int i = 0; i < request[int::Parse(textBox->Text)].size(); i++)
 				{
 					this->chart->Series["series"]->Points->AddY(request[int::Parse(textBox->Text)][i]);
+				}
+			}
+			else
+			{
+				for (map<int, vector<double>>::iterator id = request.begin(); id != request.end(); id++)
+				{
+					this->chart->Series->Add("series"+(id->first).ToString());
+					this->chart->Series["series"+(id->first).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+//					this->chart->Series["series"]->ChartArea = chartArea1;
+					for(int i = 0; i < (id->second).size(); i++)
+					{
+						this->chart->Series["series"+(id->first).ToString()]->Points->AddY((id->second)[i]);
+					}
 				}
 			}
 		}
