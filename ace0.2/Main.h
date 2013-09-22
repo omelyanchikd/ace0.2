@@ -11,6 +11,7 @@
 #include "offer.cpp"
 #include "data.cpp"
 
+world earth(2,10,10,10);
 
 namespace ace02 {
 
@@ -50,7 +51,8 @@ namespace ace02 {
 	private: System::Windows::Forms::ComboBox^  comboBox;
 	private: System::Windows::Forms::CheckBox^  checkBox;
 	private: System::Windows::Forms::Label^  label;
-	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::TextBox^  textBox;
+
 
 
 
@@ -71,12 +73,11 @@ namespace ace02 {
 		{
 			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
 			System::Windows::Forms::DataVisualization::Charting::Legend^  legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^  series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->comboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->checkBox = (gcnew System::Windows::Forms::CheckBox());
 			this->label = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->textBox = (gcnew System::Windows::Forms::TextBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -85,17 +86,8 @@ namespace ace02 {
 			chartArea1->Name = L"chartArea";
 			this->chart->ChartAreas->Add(chartArea1);
 			this->chart->Dock = System::Windows::Forms::DockStyle::Bottom;
-			legend1->Enabled = false;
-			legend1->Name = L"legend";
-			this->chart->Legends->Add(legend1);
 			this->chart->Location = System::Drawing::Point(0, 34);
 			this->chart->Name = L"chart";
-			series1->ChartArea = L"chartArea";
-			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series1->IsVisibleInLegend = false;
-			series1->Legend = L"legend";
-			series1->Name = L"series";
-			this->chart->Series->Add(series1);
 			this->chart->Size = System::Drawing::Size(763, 297);
 			this->chart->TabIndex = 0;
 			this->chart->Text = L"Chart";
@@ -109,6 +101,7 @@ namespace ace02 {
 			this->comboBox->Name = L"comboBox";
 			this->comboBox->Size = System::Drawing::Size(121, 21);
 			this->comboBox->TabIndex = 0;
+			this->comboBox->SelectedIndexChanged += gcnew System::EventHandler(this, &mainForm::comboBox_SelectedIndexChanged);
 			// 
 			// checkBox
 			// 
@@ -129,20 +122,20 @@ namespace ace02 {
 			this->label->TabIndex = 2;
 			this->label->Text = L"Firm Id";
 			// 
-			// textBox1
+			// textBox
 			// 
-			this->textBox1->Location = System::Drawing::Point(338, 5);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(44, 20);
-			this->textBox1->TabIndex = 3;
-			this->textBox1->Text = L"1";
+			this->textBox->Location = System::Drawing::Point(338, 5);
+			this->textBox->Name = L"textBox";
+			this->textBox->Size = System::Drawing::Size(44, 20);
+			this->textBox->TabIndex = 3;
+			this->textBox->Text = L"1";
 			// 
 			// mainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(763, 331);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->textBox);
 			this->Controls->Add(this->label);
 			this->Controls->Add(this->checkBox);
 			this->Controls->Add(this->comboBox);
@@ -157,18 +150,37 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			world earth(2,10,10,10);
 			for (int i = 0; i < 100; i++)
 			{
 				earth.step();
 			}
-			map<int,vector<double>> sold = earth._log.getfirmsold();
-			for(int i = 0; i < sold[1].size(); i++)
-			{
- 				this->chart->Series["series"]->Points->AddY(sold[1][i]);
-			}
 			
 		}
-	};
+	private: System::Void comboBox_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+			this->chart->Series->Clear();
+			map<int,vector<double>> request;
+			switch (comboBox->SelectedIndex)
+			{
+				case 0: request = earth._log.getfirmsalary(); break;
+				case 1: request = earth._log.getfirmprice(); break;
+				case 2: request = earth._log.getfirmmoney(); break;
+//				case 3: request = earth._log.getfirmworkers(); break;
+//				case 4: request = earth._log.getfirmdesired(); break;
+				case 5: request = earth._log.getfirmsold(); break;
+				case 6: request = earth._log.getfirmstock(); break;
+				case 7: request = earth._log.getfirmprofit(); break;
+			}
+			if (!checkBox->Checked)
+			{
+				this->chart->Series->Add("series");
+//				this->chart->Series["series"]->ChartType = Charting::Series::SeriesChartType->Line;
+//				this->chart->Series["series"]->ChartArea = chartArea1;
+				for(int i = 0; i < request[int::Parse(textBox->Text)].size(); i++)
+				{
+					this->chart->Series["series"]->Points->AddY(request[int::Parse(textBox->Text)][i]);
+				}
+			}
+		}
+};
 }
 
