@@ -11,7 +11,7 @@
 #include "offer.cpp"
 #include "data.cpp"
 
-world earth(10,100,10,10);
+world earth(10,10,10,10);
 
 namespace ace02 {
 
@@ -163,8 +163,8 @@ namespace ace02 {
 				case 0: request = earth._log.getfirmsalary(); break;
 				case 1: request = earth._log.getfirmprice(); break;
 				case 2: request = earth._log.getfirmmoney(); break;
-//				case 3: request = earth._log.getfirmworkers(); break; //Преобразовать для лога все в вектор double.
-//				case 4: request = earth._log.getfirmdesired(); break;
+				case 3: request = earth._log.getfirmworkers(); break; 
+				case 4: request = earth._log.getfirmdesired(); break;
 				case 5: request = earth._log.getfirmsold(); break;
 				case 6: request = earth._log.getfirmstock(); break;
 				case 7: request = earth._log.getfirmprofit(); break;
