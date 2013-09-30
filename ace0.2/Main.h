@@ -11,7 +11,7 @@
 #include "offer.cpp"
 #include "data.cpp"
 
-world earth(10,100,10,10);
+world earth(2,300,10,10);
 
 namespace ace02 {
 
@@ -149,7 +149,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 150; i++)
 			{
 				earth.step();
 			}
