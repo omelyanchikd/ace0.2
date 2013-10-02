@@ -9,7 +9,9 @@
 #include "goodmarket.cpp"
 
 #include "offer.cpp"
+
 #include "data.cpp"
+#include "macro.cpp"
 
 world earth(2,300,10,10);
 
@@ -52,6 +54,7 @@ namespace ace02 {
 	private: System::Windows::Forms::CheckBox^  checkBox;
 	private: System::Windows::Forms::Label^  label;
 	private: System::Windows::Forms::TextBox^  textBox;
+	private: System::Windows::Forms::ComboBox^  comboBox1;
 
 
 
@@ -71,19 +74,20 @@ namespace ace02 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea2 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
 			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->comboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->checkBox = (gcnew System::Windows::Forms::CheckBox());
 			this->label = (gcnew System::Windows::Forms::Label());
 			this->textBox = (gcnew System::Windows::Forms::TextBox());
+			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// chart
 			// 
-			chartArea1->Name = L"chartArea";
-			this->chart->ChartAreas->Add(chartArea1);
+			chartArea2->Name = L"chartArea";
+			this->chart->ChartAreas->Add(chartArea2);
 			this->chart->Dock = System::Windows::Forms::DockStyle::Bottom;
 			this->chart->Location = System::Drawing::Point(0, 34);
 			this->chart->Name = L"chart";
@@ -129,11 +133,23 @@ namespace ace02 {
 			this->textBox->TabIndex = 3;
 			this->textBox->Text = L"1";
 			// 
+			// comboBox1
+			// 
+			this->comboBox1->FormattingEnabled = true;
+			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(7) {L"Average price", L"Average salary", L"Inflation", 
+				L"Unemployment rate", L"Production", L"Consumption", L"GDP"});
+			this->comboBox1->Location = System::Drawing::Point(630, 3);
+			this->comboBox1->Name = L"comboBox1";
+			this->comboBox1->Size = System::Drawing::Size(121, 21);
+			this->comboBox1->TabIndex = 4;
+			this->comboBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &mainForm::comboBox1_SelectedIndexChanged);
+			// 
 			// mainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(763, 331);
+			this->Controls->Add(this->comboBox1);
 			this->Controls->Add(this->textBox);
 			this->Controls->Add(this->label);
 			this->Controls->Add(this->checkBox);
@@ -193,6 +209,27 @@ namespace ace02 {
 				}
 			}
 		}
+private: System::Void comboBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+			this->chart->Series->Clear();
+			vector<double> stats;
+			switch (comboBox1->SelectedIndex)
+			{
+				case 0: stats = earth._statistics.get_average_price(); break;
+				case 1: stats = earth._statistics.get_average_salary(); break;
+				case 2: stats = earth._statistics.get_inflation(); break;
+				case 3: stats = earth._statistics.get_unemployment(); break; 
+				case 4: stats = earth._statistics.get_production(); break;
+				case 5: stats = earth._statistics.get_consumption(); break;
+				case 6: stats = earth._statistics.get_gdp(); break;
+			}
+			this->chart->Series->Add("series");
+			this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+//				this->chart->Series["series"]->ChartArea = chartArea1;
+			for(int i = 1; i < stats.size(); i++)
+			{
+				this->chart->Series["series"]->Points->AddY(stats[i]);
+			}
+		 }
 };
 }
 
