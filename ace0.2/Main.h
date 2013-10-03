@@ -9,11 +9,12 @@
 #include "goodmarket.cpp"
 
 #include "offer.cpp"
+#include "unconscious.cpp"
 
 #include "data.cpp"
 #include "macro.cpp"
 
-world earth(2,300,10,10);
+world earth(2,200,10,0);
 
 namespace ace02 {
 
@@ -165,7 +166,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 150; i++)
+			for (int i = 0; i < 600; i++)
 			{
 				earth.step();
 			}
