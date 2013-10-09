@@ -78,7 +78,7 @@ namespace ace02 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea2 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
 			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->comboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->checkBox = (gcnew System::Windows::Forms::CheckBox());
@@ -90,8 +90,8 @@ namespace ace02 {
 			// 
 			// chart
 			// 
-			chartArea2->Name = L"chartArea";
-			this->chart->ChartAreas->Add(chartArea2);
+			chartArea1->Name = L"chartArea";
+			this->chart->ChartAreas->Add(chartArea1);
 			this->chart->Dock = System::Windows::Forms::DockStyle::Bottom;
 			this->chart->Location = System::Drawing::Point(0, 34);
 			this->chart->Name = L"chart";
@@ -140,8 +140,8 @@ namespace ace02 {
 			// comboBox1
 			// 
 			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(7) {L"Average price", L"Average salary", L"Inflation", 
-				L"Unemployment rate", L"Production", L"Consumption", L"GDP"});
+			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(9) {L"Average price", L"Average salary", L"Inflation", 
+				L"Unemployment rate", L"Production", L"Consumption", L"GDP", L"Firm number", L"Household number"});
 			this->comboBox1->Location = System::Drawing::Point(630, 3);
 			this->comboBox1->Name = L"comboBox1";
 			this->comboBox1->Size = System::Drawing::Size(121, 21);
@@ -169,7 +169,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 20; i++)
 			{
 				earth.step();
 			}
@@ -225,6 +225,8 @@ private: System::Void comboBox1_SelectedIndexChanged(System::Object^  sender, Sy
 				case 4: stats = earth._statistics.get_production(); break;
 				case 5: stats = earth._statistics.get_consumption(); break;
 				case 6: stats = earth._statistics.get_gdp(); break;
+				case 7: stats = earth._statistics.get_firm(); break;
+				case 8: stats = earth._statistics.get_household(); break;
 			}
 			this->chart->Series->Add("series");
 			this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
