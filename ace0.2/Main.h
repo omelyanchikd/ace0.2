@@ -17,7 +17,7 @@
 #include "data.cpp"
 #include "macro.cpp"
 
-world earth(2,100,10,0);
+world earth(2,200,10,10);
 
 namespace ace02 {
 
@@ -53,12 +53,13 @@ namespace ace02 {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::DataVisualization::Charting::Chart ^chart;
+
 	private: System::Windows::Forms::ComboBox^  comboBox;
 	private: System::Windows::Forms::CheckBox^  checkBox;
 	private: System::Windows::Forms::Label^  label;
 	private: System::Windows::Forms::TextBox^  textBox;
 	private: System::Windows::Forms::ComboBox^  comboBox1;
+	private: System::Windows::Forms::DataVisualization::Charting::Chart^  chart;
 
 
 
@@ -79,31 +80,20 @@ namespace ace02 {
 		void InitializeComponent(void)
 		{
 			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->comboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->checkBox = (gcnew System::Windows::Forms::CheckBox());
 			this->label = (gcnew System::Windows::Forms::Label());
 			this->textBox = (gcnew System::Windows::Forms::TextBox());
 			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart))->BeginInit();
 			this->SuspendLayout();
-			// 
-			// chart
-			// 
-			chartArea1->Name = L"chartArea";
-			this->chart->ChartAreas->Add(chartArea1);
-			this->chart->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->chart->Location = System::Drawing::Point(0, 34);
-			this->chart->Name = L"chart";
-			this->chart->Size = System::Drawing::Size(763, 297);
-			this->chart->TabIndex = 0;
-			this->chart->Text = L"Chart";
 			// 
 			// comboBox
 			// 
 			this->comboBox->FormattingEnabled = true;
-			this->comboBox->Items->AddRange(gcnew cli::array< System::Object^  >(8) {L"Salary", L"Price", L"Money", L"Workers", L"Desired", 
-				L"Sold", L"Stock", L"Profit"});
+			this->comboBox->Items->AddRange(gcnew cli::array< System::Object^  >(9) {L"Salary", L"Price", L"Money", L"Workers", L"Desired", 
+				L"Sold", L"Stock", L"Profit", L"Action"});
 			this->comboBox->Location = System::Drawing::Point(12, 7);
 			this->comboBox->Name = L"comboBox";
 			this->comboBox->Size = System::Drawing::Size(121, 21);
@@ -148,6 +138,17 @@ namespace ace02 {
 			this->comboBox1->TabIndex = 4;
 			this->comboBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &mainForm::comboBox1_SelectedIndexChanged);
 			// 
+			// chart
+			// 
+			chartArea1->Name = L"chartArea";
+			this->chart->ChartAreas->Add(chartArea1);
+			this->chart->Dock = System::Windows::Forms::DockStyle::Bottom;
+			this->chart->Location = System::Drawing::Point(0, 34);
+			this->chart->Name = L"chart";
+			this->chart->Size = System::Drawing::Size(763, 297);
+			this->chart->TabIndex = 0;
+			this->chart->Text = L"Chart";
+			// 
 			// mainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -188,6 +189,7 @@ namespace ace02 {
 				case 5: request = earth._log.getfirmsold(); break;
 				case 6: request = earth._log.getfirmstock(); break;
 				case 7: request = earth._log.getfirmprofit(); break;
+				case 8: request = earth._log.getfirmaction(); break;
 			}
 			if (!checkBox->Checked)
 			{
@@ -201,10 +203,13 @@ namespace ace02 {
 			}
 			else
 			{
-				for (map<int, vector<double>>::iterator id = request.begin(); id != request.end(); id++)
+				for (map<int, vector<double>>::iterator id = request.begin(); id != request.end(); ++id)
 				{
 					this->chart->Series->Add("series"+(id->first).ToString());
-					this->chart->Series["series"+(id->first).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+					if (comboBox->SelectedIndex != 8)
+						this->chart->Series["series"+(id->first).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+					else
+						this->chart->Series["series"+(id->first).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
 //					this->chart->Series["series"]->ChartArea = chartArea1;
 					for(int i = 0; i < (id->second).size(); i++)
 					{
