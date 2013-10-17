@@ -12,12 +12,16 @@
 #include "goodmarket.cpp"
 
 #include "offer.cpp"
+
+#include "scenario.cpp"
+
 #include "unconscious.cpp"
 
 #include "data.cpp"
 #include "macro.cpp"
 
-world earth(2,200,10,10);
+
+world earth(2,200,10,10,scenario(nonconscious, value, salary_desired, profit));
 
 namespace ace02 {
 
