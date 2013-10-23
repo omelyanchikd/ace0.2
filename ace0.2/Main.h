@@ -16,12 +16,13 @@
 #include "scenario.cpp"
 
 #include "unconscious.cpp"
+#include "qlearning.cpp"
 
 #include "data.cpp"
 #include "macro.cpp"
 
 
-world earth(2,200,10,10,scenario(nonconscious, value, salary_desired, profit));
+world earth(2,500,10,10,scenario(intuitive, value, salary_desired, profit));
 
 namespace ace02 {
 
