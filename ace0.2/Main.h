@@ -22,7 +22,7 @@
 #include "macro.cpp"
 
 
-world earth(2,500,10,10,scenario(intuitive, value, salary_desired, profit));
+world earth(5,300,10,10,scenario(intuitive, value, salary_desired, profit));
 
 namespace ace02 {
 
