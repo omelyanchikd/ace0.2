@@ -22,7 +22,7 @@
 #include "macro.cpp"
 
 
-world earth(5,300,10,100,scenario(Qlearning, value, salary_desired, profit));
+world earth(10,300,10,5,scenario(random, value, salary_desired, profit));
 
 namespace ace02 {
 

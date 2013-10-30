@@ -8,6 +8,7 @@ using namespace ace02;
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
+	srand(1);
 	// Enabling Windows XP visual effects before any controls are created
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
