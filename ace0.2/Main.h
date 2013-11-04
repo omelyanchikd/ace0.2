@@ -13,16 +13,19 @@
 
 #include "offer.cpp"
 
+#include "matrix.cpp"
+
 #include "scenario.cpp"
 
 #include "unconscious.cpp"
 #include "qlearning.cpp"
+#include "rls.cpp"
 
 #include "data.cpp"
 #include "macro.cpp"
 
 
-world earth(10,300,10,5,scenario(random, value, salary_desired, profit));
+world earth(2,50,10,100000,scenario(rational, value, salary_desired, profit));
 
 namespace ace02 {
 
