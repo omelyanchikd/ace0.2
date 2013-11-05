@@ -25,7 +25,7 @@
 #include "macro.cpp"
 
 
-world earth(2,50,10,100000,scenario(rational, value, salary_desired, profit));
+world earth(2,50,10,5,scenario(q_learning, value, salary_price_desired, forecast));
 
 namespace ace02 {
 
@@ -178,7 +178,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 250; i++)
 			{
 				earth.step();
 			}
