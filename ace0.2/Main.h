@@ -25,7 +25,7 @@
 #include "macro.cpp"
 
 
-world earth(2,50,10,5,scenario(q_learning, value, salary_price_desired, forecast));
+world earth(2,50,10,5,scenario(q_learning, value, salary_price_desired, forecast), "model");
 
 namespace ace02 {
 
@@ -178,7 +178,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 250; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				earth.step();
 			}
@@ -186,43 +186,61 @@ namespace ace02 {
 		}
 	private: System::Void comboBox_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 			this->chart->Series->Clear();
-			map<int,vector<double>> request;
+			vector<int> firm_ids;
+			for (int i = 1; i < 3; i++)
+			{
+				firm_ids.push_back(i);
+			}
+			ostringstream request;
+			ifstream fin;
 			switch (comboBox->SelectedIndex)
 			{
-				case 0: request = earth._log.getfirmsalary(); break;
-				case 1: request = earth._log.getfirmprice(); break;
-				case 2: request = earth._log.getfirmmoney(); break;
-				case 3: request = earth._log.getfirmworkers(); break; 
-				case 4: request = earth._log.getfirmdesired(); break;
-				case 5: request = earth._log.getfirmsold(); break;
-				case 6: request = earth._log.getfirmstock(); break;
-				case 7: request = earth._log.getfirmprofit(); break;
-				case 8: request = earth._log.getfirmaction(); break;
+				case 0: request<<"model_salary_firm_"; break;
+				case 1: request<<"model_price_firm_"; break;
+				case 2: request<<"model_money_firm_"; break;
+				case 3: request<<"model_workers_firm_"; break; 
+				case 4: request<<"model_desired_firm_"; break;
+				case 5: request<<"model_sold_firm_"; break;
+				case 6: request<<"model_stock_firm_"; break;
+				case 7: request<<"model_profit_firm_"; break;
+				//case 8: request = earth._log.getfirmaction(); break;
 			}
 			if (!checkBox->Checked)
 			{
+				request<<int::Parse(textBox->Text)<<".txt";
+				fin.open(request.str());
 				this->chart->Series->Add("series");
 				this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
 //				this->chart->Series["series"]->ChartArea = chartArea1;
-				for(int i = 0; i < request[int::Parse(textBox->Text)].size(); i++)
+				while (!fin.eof())
 				{
-					this->chart->Series["series"]->Points->AddY(request[int::Parse(textBox->Text)][i]);
+					double value;
+					fin>>value;
+					this->chart->Series["series"]->Points->AddY(value);
 				}
+				fin.close();
 			}
 			else
 			{
-				for (map<int, vector<double>>::iterator id = request.begin(); id != request.end(); ++id)
+				for (int i = 0; i < firm_ids.size(); i++)
 				{
-					this->chart->Series->Add("series"+(id->first).ToString());
+					this->chart->Series->Add("series"+(i).ToString());
 					if (comboBox->SelectedIndex != 8)
-						this->chart->Series["series"+(id->first).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+						this->chart->Series["series"+(i).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
 					else
-						this->chart->Series["series"+(id->first).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+						this->chart->Series["series"+(i).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
 //					this->chart->Series["series"]->ChartArea = chartArea1;
-					for(int i = 0; i < (id->second).size(); i++)
+					ostringstream filename;
+					filename<<request.str()<<firm_ids[i]<<".txt";
+					fin.open(filename.str());
+					while(!fin.eof())
 					{
-						this->chart->Series["series"+(id->first).ToString()]->Points->AddY((id->second)[i]);
+						double value;
+						fin>>value;
+						this->chart->Series["series"+(i).ToString()]->Points->AddY(value);
 					}
+					fin.close();
+					filename.clear();
 				}
 			}
 		}
