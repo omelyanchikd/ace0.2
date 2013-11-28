@@ -25,7 +25,7 @@
 #include "macro.cpp"
 
 
-world earth(2,50,10,5,scenario(q_learning, value, salary_price_desired, forecast), "model");
+world earth(2,50,0,0,scenario(nonconscious, value, salary_price_desired, forecast), "model");
 
 namespace ace02 {
 
@@ -68,6 +68,23 @@ namespace ace02 {
 	private: System::Windows::Forms::TextBox^  textBox;
 	private: System::Windows::Forms::ComboBox^  comboBox1;
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^  chart;
+	private: System::Windows::Forms::CheckBox^  checkSalaryY;
+	private: System::Windows::Forms::CheckBox^  checkPriceY;
+	private: System::Windows::Forms::CheckBox^  checkMoneyY;
+	private: System::Windows::Forms::CheckBox^  checkWorkersY;
+	private: System::Windows::Forms::CheckBox^  checkProfitY;
+	private: System::Windows::Forms::CheckBox^  checkStockY;
+	private: System::Windows::Forms::CheckBox^  checkSoldY;
+	private: System::Windows::Forms::CheckBox^  checkDesiredY;
+	private: System::Windows::Forms::CheckBox^  checkProfitX;
+	private: System::Windows::Forms::CheckBox^  checkStockX;
+	private: System::Windows::Forms::CheckBox^  checkSoldX;
+	private: System::Windows::Forms::CheckBox^  checkDesiredX;
+	private: System::Windows::Forms::CheckBox^  checkWorkersX;
+	private: System::Windows::Forms::CheckBox^  checkMoneyX;
+	private: System::Windows::Forms::CheckBox^  checkPriceX;
+	private: System::Windows::Forms::CheckBox^  checkSalaryX;
+	private: System::Windows::Forms::Button^  button1;
 
 
 
@@ -87,13 +104,30 @@ namespace ace02 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea3 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
 			this->comboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->checkBox = (gcnew System::Windows::Forms::CheckBox());
 			this->label = (gcnew System::Windows::Forms::Label());
 			this->textBox = (gcnew System::Windows::Forms::TextBox());
 			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
 			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
+			this->checkSalaryY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkPriceY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkMoneyY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkWorkersY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkProfitY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkStockY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkSoldY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkDesiredY = (gcnew System::Windows::Forms::CheckBox());
+			this->checkProfitX = (gcnew System::Windows::Forms::CheckBox());
+			this->checkStockX = (gcnew System::Windows::Forms::CheckBox());
+			this->checkSoldX = (gcnew System::Windows::Forms::CheckBox());
+			this->checkDesiredX = (gcnew System::Windows::Forms::CheckBox());
+			this->checkWorkersX = (gcnew System::Windows::Forms::CheckBox());
+			this->checkMoneyX = (gcnew System::Windows::Forms::CheckBox());
+			this->checkPriceX = (gcnew System::Windows::Forms::CheckBox());
+			this->checkSalaryX = (gcnew System::Windows::Forms::CheckBox());
+			this->button1 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->chart))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -140,7 +174,7 @@ namespace ace02 {
 			this->comboBox1->FormattingEnabled = true;
 			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(9) {L"Average price", L"Average salary", L"Inflation", 
 				L"Unemployment rate", L"Production", L"Consumption", L"GDP", L"Firm number", L"Household number"});
-			this->comboBox1->Location = System::Drawing::Point(630, 3);
+			this->comboBox1->Location = System::Drawing::Point(883, 5);
 			this->comboBox1->Name = L"comboBox1";
 			this->comboBox1->Size = System::Drawing::Size(121, 21);
 			this->comboBox1->TabIndex = 4;
@@ -148,20 +182,206 @@ namespace ace02 {
 			// 
 			// chart
 			// 
-			chartArea1->Name = L"chartArea";
-			this->chart->ChartAreas->Add(chartArea1);
-			this->chart->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->chart->Location = System::Drawing::Point(0, 34);
+			chartArea3->Name = L"chartArea";
+			this->chart->ChartAreas->Add(chartArea3);
+			this->chart->Location = System::Drawing::Point(137, 101);
 			this->chart->Name = L"chart";
-			this->chart->Size = System::Drawing::Size(763, 297);
+			this->chart->Size = System::Drawing::Size(878, 437);
 			this->chart->TabIndex = 0;
 			this->chart->Text = L"Chart";
+			// 
+			// checkSalaryY
+			// 
+			this->checkSalaryY->AutoSize = true;
+			this->checkSalaryY->Location = System::Drawing::Point(12, 101);
+			this->checkSalaryY->Name = L"checkSalaryY";
+			this->checkSalaryY->Size = System::Drawing::Size(53, 17);
+			this->checkSalaryY->TabIndex = 5;
+			this->checkSalaryY->Text = L"salary";
+			this->checkSalaryY->UseVisualStyleBackColor = true;
+			// 
+			// checkPriceY
+			// 
+			this->checkPriceY->AutoSize = true;
+			this->checkPriceY->Location = System::Drawing::Point(12, 125);
+			this->checkPriceY->Name = L"checkPriceY";
+			this->checkPriceY->Size = System::Drawing::Size(49, 17);
+			this->checkPriceY->TabIndex = 6;
+			this->checkPriceY->Text = L"price";
+			this->checkPriceY->UseVisualStyleBackColor = true;
+			// 
+			// checkMoneyY
+			// 
+			this->checkMoneyY->AutoSize = true;
+			this->checkMoneyY->Location = System::Drawing::Point(12, 149);
+			this->checkMoneyY->Name = L"checkMoneyY";
+			this->checkMoneyY->Size = System::Drawing::Size(57, 17);
+			this->checkMoneyY->TabIndex = 7;
+			this->checkMoneyY->Text = L"money";
+			this->checkMoneyY->UseVisualStyleBackColor = true;
+			// 
+			// checkWorkersY
+			// 
+			this->checkWorkersY->AutoSize = true;
+			this->checkWorkersY->Location = System::Drawing::Point(12, 173);
+			this->checkWorkersY->Name = L"checkWorkersY";
+			this->checkWorkersY->Size = System::Drawing::Size(63, 17);
+			this->checkWorkersY->TabIndex = 8;
+			this->checkWorkersY->Text = L"workers";
+			this->checkWorkersY->UseVisualStyleBackColor = true;
+			// 
+			// checkProfitY
+			// 
+			this->checkProfitY->AutoSize = true;
+			this->checkProfitY->Location = System::Drawing::Point(12, 268);
+			this->checkProfitY->Name = L"checkProfitY";
+			this->checkProfitY->Size = System::Drawing::Size(49, 17);
+			this->checkProfitY->TabIndex = 12;
+			this->checkProfitY->Text = L"profit";
+			this->checkProfitY->UseVisualStyleBackColor = true;
+			// 
+			// checkStockY
+			// 
+			this->checkStockY->AutoSize = true;
+			this->checkStockY->Location = System::Drawing::Point(12, 244);
+			this->checkStockY->Name = L"checkStockY";
+			this->checkStockY->Size = System::Drawing::Size(52, 17);
+			this->checkStockY->TabIndex = 11;
+			this->checkStockY->Text = L"stock";
+			this->checkStockY->UseVisualStyleBackColor = true;
+			// 
+			// checkSoldY
+			// 
+			this->checkSoldY->AutoSize = true;
+			this->checkSoldY->Location = System::Drawing::Point(12, 220);
+			this->checkSoldY->Name = L"checkSoldY";
+			this->checkSoldY->Size = System::Drawing::Size(45, 17);
+			this->checkSoldY->TabIndex = 10;
+			this->checkSoldY->Text = L"sold";
+			this->checkSoldY->UseVisualStyleBackColor = true;
+			// 
+			// checkDesiredY
+			// 
+			this->checkDesiredY->AutoSize = true;
+			this->checkDesiredY->Location = System::Drawing::Point(12, 196);
+			this->checkDesiredY->Name = L"checkDesiredY";
+			this->checkDesiredY->Size = System::Drawing::Size(60, 17);
+			this->checkDesiredY->TabIndex = 9;
+			this->checkDesiredY->Text = L"desired";
+			this->checkDesiredY->UseVisualStyleBackColor = true;
+			// 
+			// checkProfitX
+			// 
+			this->checkProfitX->AutoSize = true;
+			this->checkProfitX->Location = System::Drawing::Point(558, 69);
+			this->checkProfitX->Name = L"checkProfitX";
+			this->checkProfitX->Size = System::Drawing::Size(49, 17);
+			this->checkProfitX->TabIndex = 20;
+			this->checkProfitX->Text = L"profit";
+			this->checkProfitX->UseVisualStyleBackColor = true;
+			// 
+			// checkStockX
+			// 
+			this->checkStockX->AutoSize = true;
+			this->checkStockX->Location = System::Drawing::Point(500, 69);
+			this->checkStockX->Name = L"checkStockX";
+			this->checkStockX->Size = System::Drawing::Size(52, 17);
+			this->checkStockX->TabIndex = 19;
+			this->checkStockX->Text = L"stock";
+			this->checkStockX->UseVisualStyleBackColor = true;
+			// 
+			// checkSoldX
+			// 
+			this->checkSoldX->AutoSize = true;
+			this->checkSoldX->Location = System::Drawing::Point(449, 69);
+			this->checkSoldX->Name = L"checkSoldX";
+			this->checkSoldX->Size = System::Drawing::Size(45, 17);
+			this->checkSoldX->TabIndex = 18;
+			this->checkSoldX->Text = L"sold";
+			this->checkSoldX->UseVisualStyleBackColor = true;
+			// 
+			// checkDesiredX
+			// 
+			this->checkDesiredX->AutoSize = true;
+			this->checkDesiredX->Location = System::Drawing::Point(383, 69);
+			this->checkDesiredX->Name = L"checkDesiredX";
+			this->checkDesiredX->Size = System::Drawing::Size(60, 17);
+			this->checkDesiredX->TabIndex = 17;
+			this->checkDesiredX->Text = L"desired";
+			this->checkDesiredX->UseVisualStyleBackColor = true;
+			// 
+			// checkWorkersX
+			// 
+			this->checkWorkersX->AutoSize = true;
+			this->checkWorkersX->Location = System::Drawing::Point(314, 69);
+			this->checkWorkersX->Name = L"checkWorkersX";
+			this->checkWorkersX->Size = System::Drawing::Size(63, 17);
+			this->checkWorkersX->TabIndex = 16;
+			this->checkWorkersX->Text = L"workers";
+			this->checkWorkersX->UseVisualStyleBackColor = true;
+			// 
+			// checkMoneyX
+			// 
+			this->checkMoneyX->AutoSize = true;
+			this->checkMoneyX->Location = System::Drawing::Point(251, 69);
+			this->checkMoneyX->Name = L"checkMoneyX";
+			this->checkMoneyX->Size = System::Drawing::Size(57, 17);
+			this->checkMoneyX->TabIndex = 15;
+			this->checkMoneyX->Text = L"money";
+			this->checkMoneyX->UseVisualStyleBackColor = true;
+			// 
+			// checkPriceX
+			// 
+			this->checkPriceX->AutoSize = true;
+			this->checkPriceX->Location = System::Drawing::Point(196, 69);
+			this->checkPriceX->Name = L"checkPriceX";
+			this->checkPriceX->Size = System::Drawing::Size(49, 17);
+			this->checkPriceX->TabIndex = 14;
+			this->checkPriceX->Text = L"price";
+			this->checkPriceX->UseVisualStyleBackColor = true;
+			// 
+			// checkSalaryX
+			// 
+			this->checkSalaryX->AutoSize = true;
+			this->checkSalaryX->Location = System::Drawing::Point(137, 69);
+			this->checkSalaryX->Name = L"checkSalaryX";
+			this->checkSalaryX->Size = System::Drawing::Size(53, 17);
+			this->checkSalaryX->TabIndex = 13;
+			this->checkSalaryX->Text = L"salary";
+			this->checkSalaryX->UseVisualStyleBackColor = true;
+			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(12, 69);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(109, 26);
+			this->button1->TabIndex = 21;
+			this->button1->Text = L"Draw";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &mainForm::button1_Click);
 			// 
 			// mainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(763, 331);
+			this->ClientSize = System::Drawing::Size(1016, 537);
+			this->Controls->Add(this->button1);
+			this->Controls->Add(this->checkProfitX);
+			this->Controls->Add(this->checkStockX);
+			this->Controls->Add(this->checkSoldX);
+			this->Controls->Add(this->checkDesiredX);
+			this->Controls->Add(this->checkWorkersX);
+			this->Controls->Add(this->checkMoneyX);
+			this->Controls->Add(this->checkPriceX);
+			this->Controls->Add(this->checkSalaryX);
+			this->Controls->Add(this->checkProfitY);
+			this->Controls->Add(this->checkStockY);
+			this->Controls->Add(this->checkSoldY);
+			this->Controls->Add(this->checkDesiredY);
+			this->Controls->Add(this->checkWorkersY);
+			this->Controls->Add(this->checkMoneyY);
+			this->Controls->Add(this->checkPriceY);
+			this->Controls->Add(this->checkSalaryY);
 			this->Controls->Add(this->comboBox1);
 			this->Controls->Add(this->textBox);
 			this->Controls->Add(this->label);
@@ -178,7 +398,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 500; i++)
 			{
 				earth.step();
 			}
@@ -267,6 +487,155 @@ private: System::Void comboBox1_SelectedIndexChanged(System::Object^  sender, Sy
 				this->chart->Series["series"]->Points->AddY(stats[i]);
 			}
 		 }
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			this->chart->Series->Clear();
+			vector<int> firm_ids;
+			for (int i = 1; i < 3; i++)
+			{
+				firm_ids.push_back(i);
+			}
+			vector<ostringstream> requestX;
+			vector<ostringstream> requestY;
+			ifstream fin;
+			if (checkSalaryX->Checked)
+			{
+				requestX.push_back("");
+				requestX[requestX.size() - 1]<<"model_salary_firm";
+			}
+			if (checkPriceX->Checked)
+			{
+				requestX.push_back("");
+				requestX[requestX.size() - 1]<<"model_price_firm";
+			}
+			if (checkMoneyX->Checked)
+			{
+				requestX.push_back("");
+				requestX[requestX.size() - 1]<<"model_money_firm";
+			}
+			if (checkWorkersX->Checked)
+			{
+				requestX.push_back("");
+				requestX[requestX.size() - 1]<<"model_workers_firm";
+			}
+			if (checkDesiredX->Checked)
+			{
+				requestX.push_back("");
+				requestX[requestX.size() - 1]<<"model_desired_firm";
+			}
+			if (checkSoldX->Checked)
+			{
+				requestX.push_back("");
+				requestX[requestX.size() - 1]<<"model_sold_firm";
+			}
+			if (checkStockX->Checked)
+			{
+				requestX.push_back("");
+				requestX[requestX.size() - 1]<<"model_stock_firm";
+			}
+			if (checkProfitX->Checked)
+			{
+				requestX.push_back("");
+				requestX[requestX.size() - 1]<<"model_profit_firm";
+			}
+			if (checkSalaryY->Checked)
+			{
+				requestY.push_back("");
+				requestY[requestY.size() - 1]<<"model_salary_firm";
+			}
+			if (checkPriceY->Checked)
+			{
+				requestY.push_back("");
+				requestY[requestY.size() - 1]<<"model_price_firm";
+			}
+			if (checkMoneyY->Checked)
+			{
+				requestY.push_back("");
+				requestY[requestY.size() - 1]<<"model_money_firm";
+			}
+			if (checkWorkersY->Checked)
+			{
+				requestY.push_back("");
+				requestY[requestY.size() - 1]<<"model_workers_firm";
+			}
+			if (checkDesiredY->Checked)
+			{
+				requestY.push_back("");
+				requestY[requestY.size() - 1]<<"model_desired_firm";
+			}
+			if (checkSoldY->Checked)
+			{
+				requestY.push_back("");
+				requestY[requestY.size() - 1]<<"model_sold_firm";
+			}
+			if (checkStockY->Checked)
+			{
+				requestY.push_back("");
+				requestY[requestY.size() - 1]<<"model_stock_firm";
+			}
+			if (checkProfitY->Checked)
+			{
+				requestY.push_back("");
+				requestY[requestY.size() - 1]<<"model_profit_firm";
+			}
+			if (!checkBox->Checked)
+			{
+				for (int i = 0; i < requestX.size(); i++)
+				{
+					requestX[i]<<int::Parse(textBox->Text)<<".txt";
+					fin.open(requestX[i].str());
+					this->chart->Series->Add("series");
+					this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+//					this->chart->Series["series"]->ChartArea = chartArea1;
+					while (!fin.eof())
+					{
+						double value;
+						fin>>value;
+						this->chart->Series["series"]->Points->AddX(value);
+					}
+					fin.close();
+				}
+				for (int i = 0; i < requestY.size(); i++)
+				{
+					requestY[i]<<int::Parse(textBox->Text)<<".txt";
+					fin.open(requestX[i].str());
+					this->chart->Series->Add("series");
+					this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+//					this->chart->Series["series"]->ChartArea = chartArea1;
+					while (!fin.eof())
+					{
+						double value;
+						fin>>value;
+						this->chart->Series["series"]->Points->AddY(value);
+					}
+					fin.close();
+				}
+
+			}
+/*			else
+			{
+				for (int i = 0; i < firm_ids.size(); i++)
+				{
+					this->chart->Series->Add("series"+(i).ToString());
+					if (comboBox->SelectedIndex != 8)
+						this->chart->Series["series"+(i).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+					else
+						this->chart->Series["series"+(i).ToString()]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+//					this->chart->Series["series"]->ChartArea = chartArea1;
+					ostringstream filename;
+					filename<<request.str()<<firm_ids[i]<<".txt";
+					fin.open(filename.str());
+					while(!fin.eof())
+					{
+						double value;
+						fin>>value;
+						this->chart->Series["series"+(i).ToString()]->Points->AddY(value);
+					}
+					fin.close();
+					filename.clear();
+				}
+			}
+
+		 }//*/
 };
 }
 
