@@ -25,7 +25,7 @@
 #include "macro.cpp"
 
 
-world earth(2,50,0,0,scenario(nonconscious, value, salary_price_desired, forecast), "model");
+world earth(2,50,0,0,scenario(random, value, salary_price_desired, forecast), "model");
 
 namespace ace02 {
 
@@ -496,120 +496,111 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			}
 			vector<ostringstream> requestX;
 			vector<ostringstream> requestY;
-			ifstream fin;
+			ifstream finX, finY;
 			if (checkSalaryX->Checked)
 			{
-				requestX.push_back("");
-				requestX[requestX.size() - 1]<<"model_salary_firm";
+				requestX.push_back(ostringstream());
+				requestX[requestX.size() - 1]<<"model_salary_firm_";
 			}
 			if (checkPriceX->Checked)
 			{
-				requestX.push_back("");
-				requestX[requestX.size() - 1]<<"model_price_firm";
+				requestX.push_back(ostringstream());
+				requestX[requestX.size() - 1]<<"model_price_firm_";
 			}
 			if (checkMoneyX->Checked)
 			{
-				requestX.push_back("");
-				requestX[requestX.size() - 1]<<"model_money_firm";
+				requestX.push_back(ostringstream());
+				requestX[requestX.size() - 1]<<"model_money_firm_";
 			}
 			if (checkWorkersX->Checked)
 			{
-				requestX.push_back("");
-				requestX[requestX.size() - 1]<<"model_workers_firm";
+				requestX.push_back(ostringstream());
+				requestX[requestX.size() - 1]<<"model_workers_firm_";
 			}
 			if (checkDesiredX->Checked)
 			{
-				requestX.push_back("");
-				requestX[requestX.size() - 1]<<"model_desired_firm";
+				requestX.push_back(ostringstream());
+				requestX[requestX.size() - 1]<<"model_desired_firm_";
 			}
 			if (checkSoldX->Checked)
 			{
-				requestX.push_back("");
-				requestX[requestX.size() - 1]<<"model_sold_firm";
+				requestX.push_back(ostringstream());
+				requestX[requestX.size() - 1]<<"model_sold_firm_";
 			}
 			if (checkStockX->Checked)
 			{
-				requestX.push_back("");
-				requestX[requestX.size() - 1]<<"model_stock_firm";
+				requestX.push_back(ostringstream());
+				requestX[requestX.size() - 1]<<"model_stock_firm_";
 			}
 			if (checkProfitX->Checked)
 			{
-				requestX.push_back("");
-				requestX[requestX.size() - 1]<<"model_profit_firm";
+				requestX.push_back(ostringstream());
+				requestX[requestX.size() - 1]<<"model_profit_firm_";
 			}
 			if (checkSalaryY->Checked)
 			{
-				requestY.push_back("");
-				requestY[requestY.size() - 1]<<"model_salary_firm";
+				requestY.push_back(ostringstream());
+				requestY[requestY.size() - 1]<<"model_salary_firm_";
 			}
 			if (checkPriceY->Checked)
 			{
-				requestY.push_back("");
-				requestY[requestY.size() - 1]<<"model_price_firm";
+				requestY.push_back(ostringstream());
+				requestY[requestY.size() - 1]<<"model_price_firm_";
 			}
 			if (checkMoneyY->Checked)
 			{
-				requestY.push_back("");
-				requestY[requestY.size() - 1]<<"model_money_firm";
+				requestY.push_back(ostringstream());
+				requestY[requestY.size() - 1]<<"model_money_firm_";
 			}
 			if (checkWorkersY->Checked)
 			{
-				requestY.push_back("");
-				requestY[requestY.size() - 1]<<"model_workers_firm";
+				requestY.push_back(ostringstream());
+				requestY[requestY.size() - 1]<<"model_workers_firm_";
 			}
 			if (checkDesiredY->Checked)
 			{
-				requestY.push_back("");
-				requestY[requestY.size() - 1]<<"model_desired_firm";
+				requestY.push_back(ostringstream());
+				requestY[requestY.size() - 1]<<"model_desired_firm_";
 			}
 			if (checkSoldY->Checked)
 			{
-				requestY.push_back("");
-				requestY[requestY.size() - 1]<<"model_sold_firm";
+				requestY.push_back(ostringstream());
+				requestY[requestY.size() - 1]<<"model_sold_firm_";
 			}
 			if (checkStockY->Checked)
 			{
-				requestY.push_back("");
-				requestY[requestY.size() - 1]<<"model_stock_firm";
+				requestY.push_back(ostringstream());
+				requestY[requestY.size() - 1]<<"model_stock_firm_";
 			}
 			if (checkProfitY->Checked)
 			{
-				requestY.push_back("");
-				requestY[requestY.size() - 1]<<"model_profit_firm";
+				requestY.push_back(ostringstream());
+				requestY[requestY.size() - 1]<<"model_profit_firm_";
 			}
 			if (!checkBox->Checked)
 			{
 				for (int i = 0; i < requestX.size(); i++)
 				{
 					requestX[i]<<int::Parse(textBox->Text)<<".txt";
-					fin.open(requestX[i].str());
-					this->chart->Series->Add("series");
-					this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-//					this->chart->Series["series"]->ChartArea = chartArea1;
-					while (!fin.eof())
+					finX.open(requestX[i].str());
+					for (int j = 0; j <requestY.size(); j++)
 					{
-						double value;
-						fin>>value;
-						this->chart->Series["series"]->Points->AddX(value);
+						this->chart->Series->Add("series");
+						this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+						//					this->chart->Series["series"]->ChartArea = chartArea1;
+						requestY[j]<<int::Parse(textBox->Text)<<".txt";
+						finY.open(requestY[j].str());
+						while ((!finX.eof()) && (!finY.eof()))
+						{
+							double valueX, valueY;
+							finX>>valueX;
+							finY>>valueY;
+							this->chart->Series["series"]->Points->AddXY(valueX, valueY);
+						}
+						finY.close();
 					}
-					fin.close();
+					finX.close();
 				}
-				for (int i = 0; i < requestY.size(); i++)
-				{
-					requestY[i]<<int::Parse(textBox->Text)<<".txt";
-					fin.open(requestX[i].str());
-					this->chart->Series->Add("series");
-					this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-//					this->chart->Series["series"]->ChartArea = chartArea1;
-					while (!fin.eof())
-					{
-						double value;
-						fin>>value;
-						this->chart->Series["series"]->Points->AddY(value);
-					}
-					fin.close();
-				}
-
 			}
 /*			else
 			{
@@ -635,7 +626,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 				}
 			}
 
-		 }//*/
+			}//*/}
 };
 }
 
