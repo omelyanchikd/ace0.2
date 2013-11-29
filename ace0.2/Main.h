@@ -581,13 +581,15 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			{
 				for (int i = 0; i < requestX.size(); i++)
 				{
-					requestX[i]<<int::Parse(textBox->Text)<<".txt";
-					finX.open(requestX[i].str());
-					for (int j = 0; j <requestY.size(); j++)
+					for (int j = 0; j < requestY.size(); j++)
 					{
-						this->chart->Series->Add("series");
-						this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
-						//					this->chart->Series["series"]->ChartArea = chartArea1;
+						std::ostringstream title;
+						title<<requestX[i].str()<<"_"<<requestY[j].str();
+						this->chart->Series->Add(gcnew String(title.str().c_str()));
+						this->chart->Series[gcnew String(title.str().c_str())]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
+						//this->chart->Series[gcnew String(title.str().c_str())]->Color = System::Drawing::Color::FromArgb(i,j,i,j);
+						requestX[i]<<int::Parse(textBox->Text)<<".txt";
+						finX.open(requestX[i].str());
 						requestY[j]<<int::Parse(textBox->Text)<<".txt";
 						finY.open(requestY[j].str());
 						while ((!finX.eof()) && (!finY.eof()))
@@ -595,11 +597,11 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 							double valueX, valueY;
 							finX>>valueX;
 							finY>>valueY;
-							this->chart->Series["series"]->Points->AddXY(valueX, valueY);
+							this->chart->Series[gcnew String(title.str().c_str())]->Points->AddXY(valueX, valueY);
 						}
 						finY.close();
-					}
-					finX.close();
+						finX.close();
+					}					
 				}
 			}
 /*			else
