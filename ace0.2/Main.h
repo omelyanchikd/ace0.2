@@ -25,7 +25,7 @@
 #include "macro.cpp"
 
 
-world earth(2,50,0,0,scenario(random, value, salary_price_desired, forecast), "model");
+world earth(2,50,0,0,scenario(nonconscious, value, salary_price_desired, forecast), "model");
 
 namespace ace02 {
 
@@ -398,7 +398,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 500; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				earth.step();
 			}
@@ -579,22 +579,22 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			}
 			if (!checkBox->Checked)
 			{
-				for (int i = 0; i < requestY.size(); i++)
+				
+				if (requestX.size())
 				{
-					ostringstream title;
-					title<<requestY[i].str();
-					requestY[i]<<int::Parse(textBox->Text)<<".txt";
-					if (requestX.size())
+					for (int i = 0; i < requestX.size(); i++)
 					{
-						for (int j = 0; j < requestX.size(); j++)
+						ostringstream title, sourceX, sourceY;
+						for (int j = 0; j < requestY.size(); j++)
 						{
-							title<<requestX[j].str();
+							title<<requestX[i].str()<<requestY[j].str();
+							sourceX<<requestX[i].str()<<int::Parse(textBox->Text)<<".txt";
+							sourceY<<requestY[j].str()<<int::Parse(textBox->Text)<<".txt";
 							this->chart->Series->Add(gcnew String(title.str().c_str()));
 							this->chart->Series[gcnew String(title.str().c_str())]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
 							//this->chart->Series[gcnew String(title.str().c_str())]->Color = System::Drawing::Color::FromArgb(i,j,i,j);
-							finY.open(requestY[i].str());
-							requestY[j]<<int::Parse(textBox->Text)<<".txt";
-							finX.open(requestX[j].str());
+							finX.open(sourceX.str());							
+							finY.open(sourceY.str());
 							while ((!finX.eof()) && (!finY.eof()))
 							{
 								double valueX, valueY;
@@ -604,14 +604,23 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 							}
 							finY.close();
 							finX.close();
+							title.str("");
+							sourceX.str("");
+							sourceY.str("");
 						}						
 					}
-					else
+				}
+				else
+				{
+					for (int j = 0; j < requestY.size(); j++)
 					{
+						ostringstream title, sourceY;
+						title<<requestY[j].str();
+						sourceY<<requestY[j].str()<<int::Parse(textBox->Text)<<".txt";
 						this->chart->Series->Add(gcnew String(title.str().c_str()));
 						this->chart->Series[gcnew String(title.str().c_str())]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
 						//this->chart->Series[gcnew String(title.str().c_str())]->Color = System::Drawing::Color::FromArgb(i,j,i,j);
-						finY.open(requestY[i].str());
+						finY.open(sourceY.str());
 						while (!finY.eof())
 						{
 							double valueY;
@@ -620,31 +629,30 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 						}
 						finY.close();
 						finX.close();
-					}
-					title.str("");
+						title.str("");
+						sourceY.str("");
+					}	
 				}
 			}
 			else
 			{
-				for (int f = 0; f < firm_ids.size(); f++)
+				if (requestX.size())
 				{
-					ostringstream sourceX, sourceY;
-					for (int i = 0; i < requestY.size(); i++)
-					{
-						ostringstream title;
-						title<<requestY[i].str();
-						sourceY<<requestY[i].str()<<firm_ids[f]<<".txt";
-						if (requestX.size())
+					for (int f = 0; f < firm_ids.size(); f++)
+					{						
+						for (int i = 0; i < requestX.size(); i++)
 						{
-							for (int j = 0; j < requestX.size(); j++)
+							ostringstream title, sourceX, sourceY;						
+							for (int j = 0; j < requestY.size(); j++)
 							{
-								title<<requestX[j].str()<<firm_ids[f];
+								title<<requestX[i].str()<<requestY[j].str()<<firm_ids[f];
+								sourceX<<requestX[i].str()<<firm_ids[f]<<".txt";
+								sourceY<<requestY[j].str()<<firm_ids[f]<<".txt";								
 								this->chart->Series->Add(gcnew String(title.str().c_str()));
 								this->chart->Series[gcnew String(title.str().c_str())]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Point;
 								//this->chart->Series[gcnew String(title.str().c_str())]->Color = System::Drawing::Color::FromArgb(i,j,i,j);
-								finY.open(sourceY.str());
-								sourceX<<requestX[j].str()<<firm_ids[f]<<".txt";
-								finY.open(sourceX.str());
+								finX.open(sourceX.str());
+								finY.open(sourceY.str());								
 								while ((!finX.eof()) && (!finY.eof()))
 								{
 									double valueX, valueY;
@@ -654,26 +662,36 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 								}
 								finY.close();
 								finX.close();
+								title.str("");
 								sourceX.str("");
+								sourceY.str("");
 							}							
 						}
-						else
+					}
+				}
+				else
+				{
+					for (int f = 0; f < firm_ids.size(); f++)
+					{						
+						ostringstream title, sourceY;
+						for (int j = 0; j < requestY.size(); j++)
 						{
-							title<<firm_ids[f];
+							title<<requestY[j].str()<<firm_ids[f];							
+							sourceY<<requestY[j].str()<<firm_ids[f]<<".txt";								
 							this->chart->Series->Add(gcnew String(title.str().c_str()));
 							this->chart->Series[gcnew String(title.str().c_str())]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
 							//this->chart->Series[gcnew String(title.str().c_str())]->Color = System::Drawing::Color::FromArgb(i,j,i,j);
-							finY.open(sourceY.str());
+							finY.open(sourceY.str());								
 							while (!finY.eof())
 							{
-								double valueY;
+								double valueY;								
 								finY>>valueY;
 								this->chart->Series[gcnew String(title.str().c_str())]->Points->AddY(valueY);
 							}
-							finY.close();
-						}
-						sourceY.str("");
-						title.str("");
+							finY.close();						;
+							title.str("");							
+							sourceY.str("");
+						}							
 					}
 				}
 			}			
