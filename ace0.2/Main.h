@@ -24,8 +24,10 @@
 #include "data.cpp"
 #include "macro.cpp"
 
+const int firm_n = 2;
 
-world earth(2,50,0,0,scenario(nonconscious, value, salary_price_desired, forecast), "model");
+
+world earth(firm_n,100,0,0,scenario(nonconscious, value, salary_desired, profit), "model", "output_poland_month_price.txt", "output_poland_month_salary.txt", "output_lviv_month_plan.txt");
 
 namespace ace02 {
 
@@ -66,7 +68,8 @@ namespace ace02 {
 	private: System::Windows::Forms::CheckBox^  checkBox;
 	private: System::Windows::Forms::Label^  label;
 	private: System::Windows::Forms::TextBox^  textBox;
-	private: System::Windows::Forms::ComboBox^  comboBox1;
+	private: System::Windows::Forms::ComboBox^  comboBoxStats;
+
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^  chart;
 	private: System::Windows::Forms::CheckBox^  checkSalaryY;
 	private: System::Windows::Forms::CheckBox^  checkPriceY;
@@ -104,12 +107,12 @@ namespace ace02 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea3 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
 			this->comboBox = (gcnew System::Windows::Forms::ComboBox());
 			this->checkBox = (gcnew System::Windows::Forms::CheckBox());
 			this->label = (gcnew System::Windows::Forms::Label());
 			this->textBox = (gcnew System::Windows::Forms::TextBox());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->comboBoxStats = (gcnew System::Windows::Forms::ComboBox());
 			this->chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->checkSalaryY = (gcnew System::Windows::Forms::CheckBox());
 			this->checkPriceY = (gcnew System::Windows::Forms::CheckBox());
@@ -169,21 +172,21 @@ namespace ace02 {
 			this->textBox->TabIndex = 3;
 			this->textBox->Text = L"1";
 			// 
-			// comboBox1
+			// comboBoxStats
 			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Items->AddRange(gcnew cli::array< System::Object^  >(9) {L"Average price", L"Average salary", L"Inflation", 
+			this->comboBoxStats->FormattingEnabled = true;
+			this->comboBoxStats->Items->AddRange(gcnew cli::array< System::Object^  >(9) {L"Average price", L"Average salary", L"Inflation", 
 				L"Unemployment rate", L"Production", L"Consumption", L"GDP", L"Firm number", L"Household number"});
-			this->comboBox1->Location = System::Drawing::Point(883, 5);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(121, 21);
-			this->comboBox1->TabIndex = 4;
-			this->comboBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &mainForm::comboBox1_SelectedIndexChanged);
+			this->comboBoxStats->Location = System::Drawing::Point(883, 5);
+			this->comboBoxStats->Name = L"comboBoxStats";
+			this->comboBoxStats->Size = System::Drawing::Size(121, 21);
+			this->comboBoxStats->TabIndex = 4;
+			this->comboBoxStats->SelectedIndexChanged += gcnew System::EventHandler(this, &mainForm::comboBox1_SelectedIndexChanged);
 			// 
 			// chart
 			// 
-			chartArea3->Name = L"chartArea";
-			this->chart->ChartAreas->Add(chartArea3);
+			chartArea1->Name = L"chartArea";
+			this->chart->ChartAreas->Add(chartArea1);
 			this->chart->Location = System::Drawing::Point(137, 101);
 			this->chart->Name = L"chart";
 			this->chart->Size = System::Drawing::Size(878, 437);
@@ -382,7 +385,7 @@ namespace ace02 {
 			this->Controls->Add(this->checkMoneyY);
 			this->Controls->Add(this->checkPriceY);
 			this->Controls->Add(this->checkSalaryY);
-			this->Controls->Add(this->comboBox1);
+			this->Controls->Add(this->comboBoxStats);
 			this->Controls->Add(this->textBox);
 			this->Controls->Add(this->label);
 			this->Controls->Add(this->checkBox);
@@ -398,7 +401,7 @@ namespace ace02 {
 		}
 #pragma endregion
 	private: System::Void mainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 50; i++)
 			{
 				earth.step();
 			}
@@ -407,7 +410,7 @@ namespace ace02 {
 	private: System::Void comboBox_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 			this->chart->Series->Clear();
 			vector<int> firm_ids;
-			for (int i = 1; i < 3; i++)
+			for (int i = 1; i <= firm_n; i++)
 			{
 				firm_ids.push_back(i);
 			}
@@ -466,26 +469,34 @@ namespace ace02 {
 		}
 private: System::Void comboBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 			this->chart->Series->Clear();
-			vector<double> stats;
-			switch (comboBox1->SelectedIndex)
+			ostringstream request;
+			ifstream fin;
+			switch (comboBoxStats->SelectedIndex)
 			{
-				case 0: stats = earth._statistics.get_average_price(); break;
-				case 1: stats = earth._statistics.get_average_salary(); break;
-				case 2: stats = earth._statistics.get_inflation(); break;
-				case 3: stats = earth._statistics.get_unemployment(); break; 
-				case 4: stats = earth._statistics.get_production(); break;
-				case 5: stats = earth._statistics.get_consumption(); break;
-				case 6: stats = earth._statistics.get_gdp(); break;
-				case 7: stats = earth._statistics.get_firm(); break;
-				case 8: stats = earth._statistics.get_household(); break;
-			}
-			this->chart->Series->Add("series");
-			this->chart->Series["series"]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+				case 0: request<<"model_average_price"; break;
+				case 1: request<<"model_average_salary"; break;
+				//case 2: request<<"model_average_price.txt"stats = earth._statistics.get_inflation(); break;
+				case 3: request<<"model_unemployment_rate"; break; 
+				case 4: request<<"model_production"; break;
+				case 5: request<<"model_consumption"; break;
+				case 6: request<<"model_gdp"; break;
+				case 7: request<<"model_firm_number"; break;
+				case 8: request<<"model_household_number"; break;
+			}			
+			this->chart->Series->Add(gcnew String(request.str().c_str()));
+			this->chart->Series[gcnew String(request.str().c_str())]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
 //				this->chart->Series["series"]->ChartArea = chartArea1;
-			for(int i = 1; i < stats.size(); i++)
+			ostringstream filename;
+			filename<<request.str()<<".txt";
+			fin.open(filename.str());
+			while(!fin.eof())
 			{
-				this->chart->Series["series"]->Points->AddY(stats[i]);
+				double value;
+				fin>>value;
+				this->chart->Series[gcnew String(request.str().c_str())]->Points->AddY(value);
 			}
+			fin.close();
+			filename.str("");
 		 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			this->chart->Series->Clear();
@@ -679,7 +690,7 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 							title<<requestY[j].str()<<firm_ids[f];							
 							sourceY<<requestY[j].str()<<firm_ids[f]<<".txt";								
 							this->chart->Series->Add(gcnew String(title.str().c_str()));
-							this->chart->Series[gcnew String(title.str().c_str())]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+							this->chart->Series[gcnew String(title.str().c_str())]->ChartType =  System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line	;
 							//this->chart->Series[gcnew String(title.str().c_str())]->Color = System::Drawing::Color::FromArgb(i,j,i,j);
 							finY.open(sourceY.str());								
 							while (!finY.eof())
