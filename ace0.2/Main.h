@@ -24,10 +24,10 @@
 #include "data.cpp"
 #include "macro.cpp"
 
-const int firm_n = 2;
+const int firm_n = 5;
 
 
-world earth(firm_n,100,0,0,scenario(nonconscious, value, salary_desired, profit), "model", "output_poland_month_price.txt", "output_poland_month_salary.txt", "output_lviv_month_plan.txt");
+world earth(firm_n,1000,0,0,scenario(random, value, salary_price_desired, profit), "model");
 
 namespace ace02 {
 
@@ -410,7 +410,7 @@ namespace ace02 {
 	private: System::Void comboBox_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
 			this->chart->Series->Clear();
 			vector<int> firm_ids;
-			for (int i = 1; i <= firm_n; i++)
+			for (int i = 1; i <= 7; i++)
 			{
 				firm_ids.push_back(i);
 			}
